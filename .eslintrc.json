@@ -1,0 +1,86 @@
+{
+  "extends": "airbnb",
+  "env": {
+    "browser": true,
+    "jest": true,
+    "node": true
+  },
+  "rules": {
+    "semi": [
+      "error",
+      "never"
+    ],
+    "comma-dangle": [
+      "warn",
+      {
+        "arrays": "always-multiline",
+        "objects": "always-multiline",
+        "imports": "always-multiline",
+        "exports": "always-multiline",
+        "functions": "always-multiline"
+      }
+    ],
+    "indent": [
+      "error",
+      2
+    ],
+    "prefer-destructuring": [
+      "warn",
+      {
+        "object": true,
+        "array": true
+      }
+    ],
+    "no-plusplus": [
+      "error",
+      {
+        "allowForLoopAfterthoughts": true
+      }
+    ],
+    "object-curly-spacing": [
+      "error",
+      "never"
+    ],
+    "array-bracket-spacing": [
+      "error",
+      "never"
+    ],
+    "template-tag-spacing": [
+      "error",
+      "always"
+    ],
+    "max-len": [
+      "warn",
+      {
+        "code": 120
+      }
+    ],
+    "react/jsx-filename-extension": [
+      1,
+      {
+        "extensions": [
+          ".js",
+          ".jsx"
+        ]
+      }
+    ],
+    "react/jsx-tag-spacing": [
+      "error",
+      {
+        "closingSlash": "never",
+        "beforeSelfClosing": "always",
+        "afterOpening": "never"
+      }
+    ],
+    "react/require-default-props": [
+      "warn",
+      {
+        "forbidDefaultForRequired": true
+      }
+    ],
+    "react/self-closing-comp": 1,
+    "no-undef": 1,
+    "function-paren-newline": 0,
+    "import/no-extraneous-dependencies": 0
+  }
+}
