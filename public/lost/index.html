@@ -1,0 +1,37 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+  <title>Checkpoint Live - Lost</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=no">
+  <meta http-equiv="Content-Security-Policy" content="default-src * data:; style-src * 'unsafe-inline'; script-src * 'unsafe-inline' 'unsafe-eval'; img-src * 'self' data: blob:">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="author" content="Adam Chilton">
+  <link rel="stylesheet" href="./lost.css">
+</head>
+
+<body>
+  <div>
+    <img src="../img/largeLogo.svg" alt="Checkpoint Live" />
+  </div>
+
+  <div>
+    <p>
+      If you are lost on Operation Founder 2018 please enter your team number and click the button to send your location to the
+      event organisers.
+    </p>
+    <p>
+      If you are in a safe location stay put, if not move to a safe location and press the button again when there.
+    </p>
+  </div>
+  <div class="lostInput">
+    <input type=number id=teamNumber placeholder="Team Number" class="teamInput" />
+    <button id="sendLost" onClick="lost()">Send your location</button>
+  </div>
+
+</body>
+
+<script src="./lost.js"></script>
+
+</html>

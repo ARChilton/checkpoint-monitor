@@ -1,0 +1,16 @@
+<svg width="100" height="38.292" version="1.1" viewBox="0 0 26.458 10.131" xmlns="http://www.w3.org/2000/svg">
+  <g transform="translate(0 -286.87)">
+    <g>
+      <ellipse cx="1.7181" cy="289.56" rx="1.3212" ry="1.3218" style="fill:none;stroke-linecap:square;stroke-linejoin:bevel;stroke-width:.79375;stroke:#ff9100"/>
+      <path d="m21.02 289.72c0.01013 2.4192 2.6744 5.6113 2.6744 5.6113 2.4172-2.9488 2.8567-4.8311 2.7477-5.9413-0.09712-1.4111-1.2689-2.5262-2.7044-2.5262-1.4282 0-2.5923 1.1246-2.7002 2.5263m2.6971-1.2455c0.80458 0 1.4568 0.65295 1.4568 1.4576 0 0.80501-0.65226 1.4576-1.4568 1.4576-0.80458 0-1.4568-0.65261-1.4568-1.4576s0.65226-1.4576 1.4568-1.4576" style="fill:#ff9100"/>
+      <ellipse cx="8.6954" cy="289.56" rx="1.3212" ry="1.3218" style="fill:none;stroke-linecap:square;stroke-linejoin:bevel;stroke-width:.79375;stroke:#ff9100"/>
+      <ellipse cx="15.673" cy="289.56" rx="1.3212" ry="1.3218" style="fill:none;stroke-linecap:square;stroke-linejoin:bevel;stroke-width:.79375;stroke:#ff9100"/>
+      <path d="m3.3608 289.57 3.6628-0.0228" style="fill:none;stroke-width:.39687;stroke:#000"/>
+      <path d="m10.346 289.57 3.6628-0.0228" style="fill:none;stroke-width:.39687;stroke:#000"/>
+      <path d="m17.358 289.57 3.6858-0.0228" style="fill:none;stroke-width:.39687;stroke:#000"/>
+      <g transform="matrix(.34936 0 0 .34955 -2.9186 283.37)" style="fill-rule:evenodd;fill:#ccc;stroke-linecap:square;stroke-linejoin:bevel">
+        <path d="m84.087 37.562c0 0.7853-3.4846 1.422-7.783 1.422s-7.783-0.6367-7.783-1.422 3.4846-1.422 7.783-1.422 7.783 0.6367 7.783 1.422" style="fill-rule:nonzero;fill:#ccc;stroke-width:1.0365"/>
+      </g>
+    </g>
+  </g>
+</svg>

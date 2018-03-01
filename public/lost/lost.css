@@ -1,0 +1,72 @@
+div{
+  margin:auto;
+ 
+  font-family: 'Roboto', 'Noto', sans-serif;
+    -webkit-font-smoothing: antialiased;
+    font-weight: 400;
+    width:800px;
+    max-width:90%;
+}
+
+img{
+  max-width:100%;
+  display:block;
+  margin: 32px auto;
+}
+.lostInput{
+  text-align: center;
+}
+
+#sendLost{
+  text-align: center;
+  position: relative;
+  display: inline-block;
+  margin: 16px auto;
+  font: inherit;
+  color: inherit;
+  font-family: -apple-system,'Helvetica Neue',Helvetica,Arial,'Lucida Grande',sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-weight: 400;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+  height: auto;
+  text-decoration: none;
+  padding: 4px 10px;
+  font-size: 17px;
+  line-height: 32px;
+  letter-spacing: 0;
+  vertical-align: middle;
+  border: 0 solid currentColor;
+  border-radius: 3px;
+  cursor: pointer;
+  background-color:#ef6c00;
+  color:#fff;
+  width: 400px;
+  max-width:70%;
+}
+
+#teamNumber{
+  padding: 0;
+  margin: 16px auto;
+  outline: none;
+  line-height: 1;
+  font-family: -apple-system, 'Helvetica Neue', Helvetica, Arial, 'Lucida Grande', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  letter-spacing: 0;
+  color: #1f1f21;
+  font-size: 15px;
+  height: 31px;
+  font-weight: 400;
+  border: none;
+  background-color: transparent;
+  border-bottom: 1px solid #ccc;
+  width: 400px;
+  max-width:70%;
+}

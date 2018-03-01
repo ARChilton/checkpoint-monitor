@@ -1,0 +1,100 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-100559183-3"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
+    gtag('set', { 'user_id': 'USER_ID' }); // Set the user ID using signed-in user_id.
+    gtag('config', 'UA-100559183-3');
+  </script>
+
+  <title>Checkpoint Live - Pricing</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=no">
+  <meta name="description" content="An event management platform for checkpoint based events. Monitor participant traffic to locations in real-time to inform you who has been seen where and more importantly, who hasn't!">
+  <meta http-equiv="Content-Security-Policy" content="default-src * data:; style-src * 'unsafe-inline'; script-src * 'unsafe-inline' 'unsafe-eval'; img-src * 'self' data: blob:">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="author" content="Adam Chilton">
+  <meta name="keywords" content="checkpoint live,monitoring, orienteering, bike, hike, cars, checkpoint, scouts, guides, base, bases">
+  <link rel="apple-touch-icon" sizes="180x180" href="/qapple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+  <link rel="manifest" href="/site.webmanifest">
+  <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#ff9100">
+  <meta name="msapplication-TileColor" content="#da532c">
+  <meta name="theme-color" content="#ffffff">
+  <script src="../lib/onsenui/js/onsenui.js"></script>
+  <link rel="stylesheet" href="../lib/onsenui/css/onsenui.css">
+  <link rel="stylesheet" href="../lib/onsenui/css/onsen-css-components.css">
+  <link rel="stylesheet" href="../css/bootstrap.min.css">
+  <link rel="stylesheet" href="../css/style.css">
+
+  <body>
+    <div id="navBar" class="">
+
+      <div class="row txtCenter">
+        <div class="xsHide" id="navBarOptions">
+          <div class="col-sm-1" onClick="">
+            <img src="../img/icon.svg">
+          </div>
+
+          <div class="col-sm-2 col-sm-push-7">
+            Pricing
+          </div>
+
+          <div class="col-sm-2 col-sm-push-7">
+            Try Free
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- <div id="pricingLongLogo" class="col-sm-8 col-sm-push-2">
+      <img id="pricingLongLogoSVG" src="../img/longLogo.svg">
+    </div> -->
+    <div class="jumbotron pricingPageTitleBackground">
+
+      <h1 class="pricingPageTitle">Pay only for what you use</h1>
+      <p>We believe we have created a fantastic service to help keep your events safe and organised.
+        <br>But it is important to us that it is accessable to events of all sizes to gain the benefits.</p>
+    </div>
+    <div class="underLongLogo col-sm-12">
+      <div class="col-sm-4 pricingDivs">
+        <div class="pricingTitle">Tracking</div>
+        <div>
+          <p>
+
+          </p>
+        </div>
+        <div>
+          <ons-input type="number" float modifier="underbar" placeholder="Tracked entities"></ons-input>
+        </div>
+
+      </div>
+      <div class="col-sm-4 pricingDivs">
+        <div class="pricingTitle">Geolocation</div>
+        <div>
+
+        </div>
+      </div>
+      <div class="col-sm-4 pricingDivs">
+        <div class="pricingTitle">Storage</div>
+
+      </div>
+
+    </div>
+    <script>
+      if ('serviceWorker' in navigator) {
+        navigator.serviceWorker
+          .register('../sw.js')
+          .then(function () { console.log("Service Worker Registered"); });
+      }
+    </script>
+  </body>
+  <script src="../js/JQuery/jquery-3.1.1.min.js "></script>
+  <script src="./pricing.js"></script>
+
+</html>

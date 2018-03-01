@@ -1,0 +1,18 @@
+<svg width="64" height="64" version="1.1" viewBox="0 0 16.933 16.933" xmlns="http://www.w3.org/2000/svg">
+  <g transform="translate(0 -280.07)">
+    <g transform="translate(-24.848 244.22)" style="">
+      <g transform="translate(19.998 -14.751)">
+        <path d="m14.153 59.914c0.0105 2.5068 2.7727 5.8145 2.7727 5.8145 2.5061-3.0556 2.9618-5.0061 2.8488-6.1564-0.10069-1.4622-1.3155-2.6177-2.8038-2.6177-1.4807 0-2.6876 1.1653-2.7995 2.6177m2.7962-1.2906c0.83416 0 1.5104 0.6766 1.5104 1.5104 0 0.83416-0.67624 1.5104-1.5104 1.5104s-1.5104-0.67624-1.5104-1.5104c0-0.83416 0.67624-1.5104 1.5104-1.5104" style="fill:#ff9100"/>
+        <g transform="matrix(.36221 0 0 .36221 -10.666 53.333)" style="fill-rule:evenodd;fill:#ccc;stroke-linecap:square;stroke-linejoin:bevel">
+          <path d="m84.087 37.562c0 0.7853-3.4846 1.422-7.783 1.422s-7.783-0.6367-7.783-1.422 3.4846-1.422 7.783-1.422 7.783 0.6367 7.783 1.422" style="fill-rule:nonzero;fill:#ccc"/>
+        </g>
+      </g>
+      <ellipse transform="scale(-1,1)" cx="-35.815" cy="37.683" rx="1.3698" ry="1.3696" style="fill:none;stroke-linecap:square;stroke-linejoin:bevel;stroke-width:.79375;stroke:#ff9100"/>
+      <ellipse cx="28.607" cy="37.683" rx="1.3698" ry="1.3696" style="fill:none;stroke-linecap:square;stroke-linejoin:bevel;stroke-width:.79375;stroke:#ff9100"/>
+      <ellipse cx="28.607" cy="44.992" rx="1.3698" ry="1.3696" style="fill:none;stroke-linecap:square;stroke-linejoin:bevel;stroke-width:.79375;stroke:#ff9100"/>
+      <path d="m34.112 37.695-3.7974-0.02363" style="fill:none;stroke-width:.39687;stroke:#000"/>
+      <path d="m28.619 43.236-0.02363-3.7974" style="fill:none;stroke-width:.39687;stroke:#000"/>
+      <path d="m30.354 45.003 3.8213-0.02363" style="fill:none;stroke-width:.39687;stroke:#000"/>
+    </g>
+  </g>
+</svg>

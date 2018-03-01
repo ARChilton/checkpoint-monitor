@@ -1,40 +1,1106 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="theme-color" content="#000000">
-    <!--
-      manifest.json provides metadata used when your web app is added to the
-      homescreen on Android. See https://developers.google.com/web/fundamentals/engage-and-retain/web-app-manifest/
-    -->
-    <link rel="manifest" href="%PUBLIC_URL%/manifest.json">
-    <link rel="shortcut icon" href="%PUBLIC_URL%/favicon.ico">
-    <!--
-      Notice the use of %PUBLIC_URL% in the tags above.
-      It will be replaced with the URL of the `public` folder during the build.
-      Only files inside the `public` folder can be referenced from the HTML.
+<!DOCTYPE HTML>
+<html>
 
-      Unlike "/favicon.ico" or "favicon.ico", "%PUBLIC_URL%/favicon.ico" will
-      work correctly both with client-side routing and a non-root public URL.
-      Learn how to configure a non-root public URL by running `npm run build`.
-    -->
-    <title>React App</title>
-  </head>
-  <body>
-    <noscript>
-      You need to enable JavaScript to run this app.
-    </noscript>
-    <div id="root"></div>
-    <!--
-      This HTML file is a template.
-      If you open it directly in the browser, you will see an empty page.
+<head>
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-100559183-3"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
+    gtag('set', { 'user_id': 'USER_ID' }); // Set the user ID using signed-in user_id.
+    gtag('config', 'UA-100559183-3');
+  </script>
 
-      You can add webfonts, meta tags, or analytics to this file.
-      The build step will place the bundled scripts into the <body> tag.
+  <title>Checkpoint Live</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=no">
+  <meta name="description" content="An event management platform for checkpoint based events. Monitor participant traffic to locations in real-time to inform you who has been seen where and more importantly, who hasn't!">
+  <meta http-equiv="Content-Security-Policy" content="default-src * data:; style-src * 'unsafe-inline'; script-src * 'unsafe-inline' 'unsafe-eval'; img-src * 'self' data: blob:">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="author" content="Adam Chilton">
+  <meta name="keywords" content="checkpoint live,monitoring, orienteering, bike, hike, cars, checkpoint, scouts, guides, base, bases">
+  <link rel="apple-touch-icon" sizes="180x180" href="/qapple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+  <link rel="manifest" href="/site.webmanifest">
+  <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#ff9100">
+  <meta name="msapplication-TileColor" content="#da532c">
+  <meta name="theme-color" content="#ffffff">
+  <!-- <script src="components/loader.js"></script> -->
+  <script src="lib/onsenui/js/onsenui.js"></script>
+  <!--<script src="js/mdl/material.js"></script>-->
+  <script src="https://cdn.polyfill.io/v2/polyfill.min.js?features=Promise"></script>
+  <!-- <link rel="stylesheet" href="components/loader.css"> -->
+  <link rel="stylesheet" href="lib/onsenui/css/onsenui.css">
+  <link rel="stylesheet" href="lib/onsenui/css/onsen-css-components.css">
+  <!-- <link rel="stylesheet" href="js/mdl/material.css"> -->
+  <!--<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">-->
+  <!-- <link rel="stylesheet" href="js/leaflet/leaflet.css"> -->
+  <!--<link rel="stylesheet" href="js/leaflet/leaflet-routing-machine.css">-->
+  <!--<link rel="stylesheet" href="js/leaflet/lrm-mapzen.css">-->
+  <!-- <link rel="stylesheet" href="js/JQuery/jquery.mobile-1.4.5.min.css">-->
+  <link rel="stylesheet" href="css/bootstrap.min.css">
+  <link rel="stylesheet" href="css/style.css">
+</head>
 
-      To begin the development, run `npm start` or `yarn start`.
-      To create a production bundle, use `npm run build` or `yarn build`.
-    -->
-  </body>
+<body>
+  <noscript>
+    You need to enable JavaScript to run this app.
+  </noscript>
+  <div id="root"></div>
+  <!-- Navigation between pages -->
+  <!-- To add new pages to the menu use menu.html but do not add the main map screen to the menu as leaflet does not re-run -->
+  <ons-splitter>
+    <ons-splitter-side id="menu" side="left" page="menu.html" swipe-target-width="1px" collapse swipeable>
+    </ons-splitter-side>
+    <ons-splitter-content id="content"></ons-splitter-content>
+    <ons-navigator id="navi"></ons-navigator>
+  </ons-splitter>
+  <!-- End of page navigation -->
+  <!-- Menu page -->
+  <ons-template id="menu.html">
+    <ons-page id="sideMenu">
+      <div class="">
+        <img src="img/largeLogo.svg" class="menuTopBoxContent">
+      </div>
+      <ons-list id="opFounderMenu">
+        <ons-list-item id="baseLogOut" class="hide" onclick="baseLogOut()" tappable>
+          Leave Base
+        </ons-list-item>
+        <ons-list-item onclick="copyAllLogs()" id="copyAllLogs" class="hide" tappable>
+          Copy All Logs Table
+        </ons-list-item>
+        <ons-list-item onclick="goToEventSummary()" id="goToEventSummary" class="hide" tappable>
+          Event Summary
+        </ons-list-item>
+        <!-- <ons-list-item onclick="goToMap()" id="goToMap" class="hide" tappable>
+          Local Map
+        </ons-list-item> -->
+        <ons-list-item id="eventEditor" class="hide" onclick="editEvent()" tappable>
+          Edit Event Set-up
+        </ons-list-item>
+        <ons-list-item id="eventChanger" class="hide" onclick="changeEvent()" tappable>
+          Switch Event
+        </ons-list-item>
+        <ons-list-item id="eventSignOut" onclick="signOut()" tappable>
+          Sign Out
+        </ons-list-item>
+        <!--<ons-list-item onclick="destroyBasedb()" tappable>
+          Destroy Db
+        </ons-list-item>-->
+        <!--<ons-list-item id="about" tappable>
+          About
+        </ons-list-item>-->
+      </ons-list>
+    </ons-page>
+  </ons-template>
+  <!-- End of Menu Page -->
+  <!-- Start of Splash Screen -->
+  <!-- <ons-template id="splashScreen.html">
+    <ons-page id="splashScreen">
+      <div class="updateFiller">
+        <ons-progress-bar indeterminate class="progressBar"></ons-progress-bar>
+      </div>
+      <img src="img/largeLogo.svg" class="loginLogo " id="signInLogo">
+      <div class="updateFiller"></div>
+    </ons-page>
+
+  </ons-template> -->
+  <!-- End of splash screen -->
+  <!-- Start of Sign In page -->
+  <ons-template id="signInPage.html">
+    <ons-page id="signInPage">
+      <ons-progress-bar indeterminate class="hide progressBar"></ons-progress-bar>
+
+      <div id="navBar" class="">
+
+        <div class="row txtCenter">
+          <div class="xsHide" id="navBarOptions">
+            <div class="col-sm-1" onClick="">
+              <img src="./img/icon.svg">
+            </div>
+
+            <div class="col-sm-2 col-sm-push-7">
+              Pricing
+            </div>
+
+            <div class="col-sm-2 col-sm-push-7">
+              Try Free
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="">
+
+        <div class="signInFormDiv row">
+          <div class="logoBackground">
+            <img src="img/largeLogo.svg" class="loginLogo " id="signInLogo">
+          </div>
+          <form id="signInForm" class="txtCenter">
+            <p>
+              <ons-input id="signInUserName" modifier="underbar" placeholder="Username/email" float class="input70perWidth marginTop32px"></ons-input>
+            </p>
+            <p>
+              <ons-input id="signInPassword" modifier="underbar" placeholder="Password" float type="password" class="input70perWidth "></ons-input>
+            </p>
+            <p>
+              <ons-button class="signInButton primaryColorButton input70perWidth">Sign In</ons-button>
+            </p>
+            <ons-button class="signUpButton secondaryColorButton maxWidth" modifier="large">Event Organiser Sign Up</ons-button>
+          </form>
+        </div>
+
+        <div class="row section sectionGray" id="highlights">
+          <div class="col-sm-4" id="safer">
+            <ons-icon icon="fa-users" class="secondaryColor"></ons-icon>
+            <h2 class="txtCenter bold">Making events safer</h2>
+            <div class="txtJustify">
+              <p>
+                Receiving updates from all checkpoints simultaneously in real-time means you know which teams were last seen when and where,
+                or more importantly which teams haven't been seen for some time!
+              </p>
+            </div>
+          </div>
+          <div class="col-sm-4" id="burden">
+            <ons-icon icon="fa-mobile-phone" class="secondaryColor"></ons-icon>
+            <h2 class="txtCenter bold">Enjoy monitoring the event</h2>
+            <div class="txtJustify">
+              <p>
+                Designed for use on any mobile device, using Checkpoint Live means you can be on the move and still monitor the event.
+              </p>
+              <p>
+                Need to be flexible during the event? Add new checkpoints for transports or ad-hoc locations and everyone connected to the
+                event will be updated.
+              </p>
+            </div>
+          </div>
+          <div class="col-sm-4" id="safer">
+            <ons-icon icon="fa-comments" class="secondaryColor"></ons-icon>
+            <h2 class="txtCenter bold">Improving communication</h2>
+            <div class="txtJustify">
+              <p>
+                Gone are the days of mishearing via radio or misinterpreting handwriting. Inputs are made by individuals at the checkpoint
+                and distributed to everyone in a readable format, in real-time.
+              </p>
+              <p>With a chat-room included for every event you can contact all of your checkpoint marshals and they can contact
+                you, clearly and transparently.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div class="row section">
+          <div class="col-xs-12">
+            <h2 class="txtCenter bold">What is Checkpoint Live?</h2>
+            <div class="txtJustify col-md-4 col-md-push-2 xsPadding16">
+              <p>
+                Checkpoint Live was developed initially for the Scout and Guide communities to enable real time updates on where the teams
+                of young people are as they participate in orienteering activities. Now it can be used by any event with
+                manned checkpoints/bases.
+              </p>
+              <p>
+                Checkpoint Live can be used via the website to record when, where and who visited a specific checkpoint/base. With the added
+                ability to record any scores taken at that location.
+              </p>
+              <p>
+                This replaces the need for radio updates or sending messengers to collect records of team sightings from across the countryside.
+              </p>
+              <p>Importantly for the organisers it removes the data entry into the HQ system as all logs are entered by the
+                checkpoints. This data can even be copied into Microsoft Excel&trade;</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="row section">
+          <div class="col-xs-12">
+            <h2 class="txtCenter bold">What if I have bad mobile reception?</h2>
+            <div class="col-md-4 col-md-push-2 txtJustify xsPadding16">
+              <p>Being out in the county side means there is no guarantee of mobile reception. While this situation is improving,
+                Checkpoint Live has taken an 'offline first' approach.</p>
+              <p>
+                Offline first means that this website will continue to work even when your mobile internet signal is intermittent. It does
+                this by storing the recorded base logs to your mobile device before synchronising them with other event users
+                when the mobile device re-connects to the internet.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div class="row section sectionGray">
+          <div class="col-xs-12">
+            <h2 class="txtCenter bold">As used by</h2>
+            <div class="xsPadding16">
+              <img src="img/operationFounder.png" class="asUsedByLogo">
+            </div>
+          </div>
+        </div>
+
+
+      </div>
+      <div class="caption txtRight bottomDiv row">© 2018 Adam Chilton</div>
+
+    </ons-page>
+  </ons-template>
+  <!-- End of signInPage -->
+  <!-- Start of signUpPage -->
+  <ons-template id="signUpPage.html">
+    <ons-page id="signUpPage">
+      <ons-toolbar>
+        <div class="left">
+          <ons-back-button>Back</ons-back-button>
+        </div>
+        <div class="center">
+          Create Account
+        </div>
+      </ons-toolbar>
+      <div class="pageDiv">
+        <div class="row txtCenter maxWidth marginAuto">
+          <h1>The first step towards managing your event..</h1>
+          <div>
+            <ons-input id="signUpEmail" modifier="underbar" placeholder="Email" float type="email" class="fullWidthInput marginTop maxWidth"
+              required></ons-input>
+            <ons-input id="signUpPassword" modifier="underbar" placeholder="Password (min 6 characters)" float class="fullWidthInput marginTop maxWidth"
+              required></ons-input>
+            <ons-input id="signUpPasswordConfirm" modifier="underbar" placeholder="Confirm password" float class="fullWidthInput marginTop maxWidth"
+              required></ons-input>
+          </div>
+        </div>
+
+        <div class="row">
+          <div id="packageOfferings">
+            <div class="col-sm-4 primaryColorBackground">
+              <div class="packageTitle">
+                <h2>Try Free</h2>
+              </div>
+
+            </div>
+            <div class="col-sm-4">
+              <div class="packageTitle">
+                <h2>Standard</h2>
+              </div>
+              <div>
+                <p></p>
+              </div>
+
+            </div>
+            <div class="col-sm-4 primaryColorBackground">
+              <div class="packageTitle">
+                <h2>Enterprise</h2>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row txtCenter marginAuto maxWidth">
+          <p class="marginTop">That's it you're done.
+            <br> Go forth and manage your events with ease.</p>
+          <p>
+            <ons-button modifier="large" class="signUpInputButton secondaryColorButton maxWidth">Create My Account</ons-button>
+          </p>
+        </div>
+      </div>
+
+
+      </div>
+    </ons-page>
+  </ons-template>
+  <!-- End of sign up page -->
+  <!-- Start of Verification code entry page -->
+  <ons-template id="verificationPage.html">
+    <ons-page id="verificationPage">
+      <ons-toolbar>
+        <div class="left">
+          <ons-back-button>Back</ons-back-button>
+        </div>
+        <div class="center">
+          Enter Verification Code
+        </div>
+
+      </ons-toolbar>
+      <div class="pageDiv txtCenter caption">
+        <p class="txtLeft marginTop">You have just been sent an email to the email address you provided, this contains a verification code. Please enter
+          or paste your verification code below:</p>
+        <ons-input id="verificationCode" modifier="underbar" placeholder="Enter verification code here" float type="text" class="fullWidthInput marginTop"
+          autofocus></ons-input>
+        <ons-button modifier="large" class="marginTop secondaryColorButton" id="verifyAccountButton">
+          VERIFY ACCOUNT
+        </ons-button>
+        <h1 class="txtLeft bold borderBottom">Can't find your verification email?</h1>
+        <p class="txtLeft marginTop">It can take a few minutes for the email to arrive; if you cannot find your verification email please check your spam
+          folder, if you still cannot find it press the re-send verification email button below.</p>
+        <ons-button modifier="large" class="marginTop " id="resendVerificationCode">
+          Re-send verification email
+        </ons-button>
+      </div>
+    </ons-page>
+  </ons-template>
+  <!-- End of Verification code entry page -->
+  <!-- Start of Create Event page -->
+  <ons-template id="createEventPage.html">
+    <ons-page id="createEventPage">
+      <ons-toolbar>
+        <div class="left">
+          <ons-back-button>Back</ons-back-button>
+        </div>
+        <div class="center">
+          Create Event
+        </div>
+        <div class="right">
+          <ons-toolbar-button>
+            <ons-icon icon="md-check" id="saveEvent"></ons-icon>
+          </ons-toolbar-button>
+        </div>
+      </ons-toolbar>
+      <ons-progress-bar indeterminate class="progressBar hide"></ons-progress-bar>
+      <div class="pageDiv txtCenter">
+
+        <form id="createEventForm" class="marginTop">
+          <input type="file" accept="image/*" id="eventBanner" class="inputFile hide">
+          <label id="eventBannerInputLabel" for="eventBanner">
+            <img src="img/largeLogo.svg" class="loginLogo" id="eventBannerImage">
+            <ons-button modifier="large" class="marginTop secondaryColorButton">
+              Change banner image
+            </ons-button>
+          </label>
+          <ons-input id="eventName" modifier="underbar" placeholder="Event name *" float type="text" class="fullWidthInput marginTop"
+            autofocus></ons-input>
+
+          <textarea class="textarea marginTop" id="eventDescription" placeholder="Event description or instructions" style="width: 100%; height: 100px;"></textarea>
+
+          <div class="flex flexRow flexSpaceBetween flexWrap">
+            <div class="bold caption">Start *
+              <ons-input id="eventStartDate" type="datetime-local" class="marginLeft marginRight" required></ons-input>
+            </div>
+            <div class="bold caption txtRight">End *
+              <ons-input id="eventEndDate" type="datetime-local" class="marginLeft" required></ons-input>
+            </div>
+          </div>
+          <div class="flex flexRow flexSpaceBetween marginTop32px">
+            <div class="eventItemTitle bold h3NoStyling">Participant type</div>
+            <ons-input id="pReference" modifier="underbar" placeholder="Team / Patrol / Other" float type="text" class="" value="Team"
+              required></ons-input>
+          </div>
+          <div class="caption txtLeft">How the participants in the event will be referred to (default: Team).</div>
+          <div class="bigEventSetUpButtons">
+            <div id="passwordProtectLogs" class="marginTop">
+              <ons-ripple class="ripple" color="#e8ecef" background="#f4f7f9"></ons-ripple>
+              <div class="flex flexRow flexAlignFlexStart">
+
+                <div class="eventItemTitle bold h3NoStyling passwordProtectLogs">
+                  Password protect base entry
+                </div>
+
+                <div class="eventItemSwitch">
+                  <ons-switch id="passwordSwitch" checked></ons-switch>
+                </div>
+
+              </div>
+              <div class="flex flexRow flexAlignFlexStart passwordProtectLogs">
+                <div class="eventItemCaption">
+                  <p class="caption">
+                    This will require those using the app/website to enter a unique passcode to gain access to their base, this limits user's
+                    access only to bases they have the passcode for. If this option is turned off all users with the event
+                    log-in will be able to select the base they are logging visits for from a drop down list. (The Admin
+                    area always requires a passcode).
+                  </p>
+
+                </div>
+
+                <div class="eventItemSpacer"></div>
+              </div>
+            </div>
+            <div id="offRouteLogs">
+              <ons-ripple class="ripple" color="#e8ecef" background="#f4f7f9"></ons-ripple>
+              <div class="flex flexRow flexAlignFlexStart">
+
+                <div class="eventItemTitle bold h3NoStyling offRouteLogs">
+                  Log off route entries
+                </div>
+
+                <div class="eventItemSwitch">
+                  <ons-switch id="offRouteLogsSwitch" checked></ons-switch>
+                </div>
+
+              </div>
+              <div class="flex flexRow flexAlignFlexStart offRouteLogs">
+                <div class="eventItemCaption">
+                  <p class="caption">
+                    This will allow your event users to log when they see a team, even if they are not due to participate on that base yet. This
+                    is useful from a safety perspective as every team sighting is recorded.
+                  </p>
+
+                </div>
+                <div class="eventItemSpacer"></div>
+              </div>
+            </div>
+            <div id="automateTimeEntry">
+              <ons-ripple class="ripple" color="#e8ecef" background="#f4f7f9"></ons-ripple>
+              <div class="flex flexRow flexAlignFlexStart">
+
+                <div class="eventItemTitle bold h3NoStyling autoTime">
+                  Automate time entry
+                </div>
+
+                <div class="eventItemSwitch">
+                  <ons-switch id="autoTimeSwitch"></ons-switch>
+                </div>
+
+              </div>
+              <div class="flex flexRow flexAlignFlexStart autoTime">
+                <div class="eventItemCaption">
+                  <p class="caption">
+                    Turning this on will remove the need for users to enter time information into the app/website when recording a log entry.
+                    Instead the time in and out of the base is set as to the time that the submit log button is pressed.
+                    This is useful for quicker submission of logs.
+                  </p>
+
+                </div>
+                <div class="eventItemSpacer"></div>
+              </div>
+            </div>
+            <div id="enabletracking">
+              <ons-ripple class="ripple" color="#e8ecef" background="#f4f7f9"></ons-ripple>
+              <div class="flex flexRow flexAlignFlexStart">
+
+                <div class="eventItemTitle bold h3NoStyling tracking">
+                  Live feed to a tracking server
+                </div>
+
+                <div class="eventItemSwitch">
+                  <ons-switch id="trackingSwitch"></ons-switch>
+                </div>
+
+              </div>
+              <div class="flex flexRow flexAlignFlexStart tracking">
+                <div class="eventItemCaption">
+                  <p class="caption">
+                    Turning this on will enable a live feed of locations to be sent to a tracking server whenever a log is recorded; this remains
+                    at the user's discretion to enable location services on their device and only applies to checkpoints
+                    which have 'record location with log' turned on below.
+                  </p>
+                  <p class="caption">
+                    Enter the url of your tracking server below to receive tracking updates via the OsmAnd protocol:
+                  </p>
+                </div>
+
+                <div class="eventItemSpacer"></div>
+              </div>
+            </div>
+            <ons-input id="trackingUrl" modifier="underbar" placeholder="http://yourdomain:portnumber" float type="text" class="fullWidthInput"
+              disabled></ons-input>
+          </div>
+          <h2 class="txtLeft bold borderBottom">Admin</h2>
+          <div class="flex flexRow flexSpaceBetween marginTop">
+            <div class="caption bold">Event Username *</div>
+            <ons-input id="evtUsername" modifier="underbar" placeholder="Username" float type="text" class="eventUsername maxWidth50per"
+              required></ons-input>
+          </div>
+          <p class="caption txtLeft">Username for all of the other users of the event. (A password will be auto-generated.)</p>
+          <div class="flex flexRow flexSpaceBetween marginTop">
+            <div class="caption bold">Admin password *</div>
+            <ons-input id="adminPassword" modifier="underbar" placeholder="Password" float type="text" class="adminPassword eventPassword maxWidth50per"
+              required></ons-input>
+          </div>
+          <p class="caption txtLeft">Passcode required to enter the admin area of the event, to be able to view all logs from all bases and administrate
+            the event. </p>
+          <h2 class="txtLeft bold borderBottom">Checkpoints</h2>
+          <div class="baseSetUp">
+            <p class="txtLeft bold">Checkpoint 1</p>
+            <ons-input id="base1Name" modifier="underbar" placeholder="Checkpoint name or location" float type="text" class="fullWidthInput"></ons-input>
+            <div class="flex flexRow flexSpaceBetween marginTop">
+              <div class="caption">
+                <span class="bold">Maximum score available</span>
+                <br/>
+                <span class="marginLeft">(blank = no score input)</span>
+              </div>
+              <ons-input id="base1MaxScore" modifier="underbar" placeholder="Max score" float type="number" class="baseMaxScore" required></ons-input>
+            </div>
+            <div class="flex flexRow flexSpaceBetween marginTop basePasswordShowHide">
+              <div class="caption bold">Base password *</div>
+              <ons-input id="base1Password" modifier="underbar" placeholder="Password" float type="text" class="basePassword eventPassword"
+                required></ons-input>
+            </div>
+            <div class="flex flexRow flexSpaceBetween marginTop">
+              <div class="caption bold">Record location with logs</div>
+              <div class="geolocationSwitch">
+                <ons-switch id="base1GeolocationSwitch"></ons-switch>
+              </div>
+            </div>
+            <textarea class="textarea marginTop" id="base1Instructions" placeholder="Base specific instructions" style="width: 100%; height:45px;"></textarea>
+          </div>
+
+          <ons-button modifier="large" class="addBaseButton secondaryColorButton marginTop marginBottom">Add Another Checkpoint</ons-button>
+
+        </form>
+      </div>
+    </ons-page>
+  </ons-template>
+  <!-- End of createEventPage page -->
+  <!-- Start of eventSummary page -->
+  <ons-template id="eventSummaryPage.html">
+    <ons-page id="eventSummaryPage">
+      <ons-toolbar>
+        <div class="left">
+          <ons-back-button>Back</ons-back-button>
+        </div>
+        <div class="center">
+          Event Summary
+        </div>
+        <div class="right">
+          <ons-toolbar-button>
+            <ons-icon icon="md-check" id="goToEvent"></ons-icon>
+          </ons-toolbar-button>
+        </div>
+      </ons-toolbar>
+      <ons-fab ripple id="emailEvtDescription" position="bottom right" class="evtSendEmail">
+        <i class="zmdi zmdi-email"></i>
+      </ons-fab>
+      <div class="pageDiv evtSummary">
+        <div id="evtSummaryBanner"></div>
+        <div id="evtSummaryEvtUser">
+          <div id="evtSummaryEvtUserContents">
+            <div id="" class="">
+              <span class="bold sentanceCase">base user username: </span>
+              <span id="evtSummaryUsername" class="copyableArea passwordFont"></span>
+            </div>
+            <div id="" class="">
+              <span class="bold sentanceCase">base user password: </span>
+              <span id="evtSummaryPassword" class="copyableArea passwordFont"></span>
+            </div>
+            <div class="caption">Other users of your event will use these log in details to sign into the event.</div>
+          </div>
+        </div>
+        <div>
+          <h2 class="txtLeft bold borderBottom keepAsWritten" id="evtSummaryTitle">Event Details</h2>
+          <div id="evtSummaryEvtDetails">
+            <p id="evtSummaryStartDate" class="">
+              <span class="bold sentanceCase">Start Date: </span>
+            </p>
+            <p id="evtSummaryEndDate" class="">
+              <span class="bold sentanceCase">End Date: </span>
+            </p>
+            <p id="evtSummaryBaseCount" class="">
+              <span class="bold sentanceCase">Number of Checkpoints: </span>
+            </p>
+            <p id="evtSummaryDescription" class="">
+              <span class="bold sentanceCase">Event Description: </span>
+              <br>
+            </p>
+          </div>
+          <!-- <div id="evtSummaryAdminContainer">
+            <h2 class="txtLeft bold borderBottom sentanceCase" id="evtSummaryAdmin">Admin</h2>
+            <div id="evtSummaryAdminDetails">
+              <p id="" class="">
+                <span class="bold sentanceCase">Admin passcode: </span>
+                <span id="evtSummaryAdminPass" class="passwordFont"></span>
+              </p>
+            </div>
+          </div> -->
+          <div id="evtSummaryBasesContainer">
+            <h2 class="txtLeft bold borderBottom sentanceCase" id="evtSummaryBasesTitle">Checkpoints</h2>
+            <div id="evtSummaryBases"></div>
+          </div>
+        </div>
+        <div class="marginBottom" id="sendEventEmailButtonContainer">
+          <ons-button modifier="large" class="evtSendEmail secondaryColorButton">Email Event details</ons-button>
+        </div>
+      </div>
+    </ons-page>
+  </ons-template>
+  <!-- End of eventSummary page -->
+  <!-- Start of loginPage -->
+  <ons-template id="loginPage.html">
+    <ons-page id="loginPage">
+      <ons-toolbar>
+        <div class="left">
+          <ons-toolbar-button class="menuButton">
+            <ons-icon icon="md-menu"></ons-icon>
+          </ons-toolbar-button>
+        </div>
+        <div class="center" id="loginTitle">
+          <div class="normalTitle"></div>
+          <div class="syncTitle hide">
+            <p class="mainTitle"></p>
+            <p class="lastSync"></p>
+          </div>
+        </div>
+
+      </ons-toolbar>
+      <div class="pageDiv marginTop32px">
+        <div>
+          <img src="img/largeLogo.svg" class="loginLogo hide" id="loginEventLogo">
+        </div>
+        <div>
+          <p class="marginTop" id="loginWelcome">Please enter your name and passcode below:</p>
+          <p>
+            <ons-input id="userName" modifier="underbar" placeholder="Name" float class="fullWidthInput"></ons-input>
+          </p>
+          <p id="betweenNameAndBase">This is the short code provided to you by the event's organisers.</p>
+          <p>
+            <ons-input id="baseCode" modifier="underbar" placeholder="Passcode" float class="fullWidthInput marginTop"></ons-input>
+          </p>
+          <p class="caption" id="loginCodeCaption">(Each code is individual to each checkpoint/base)</p>
+          <p class="txtCenter marginTop">
+            <ons-button modifier="large" id="loginButton" class="loginButton secondaryColorButton">Go to base</ons-button>
+          </p>
+        </div>
+        <div>
+          <h2 class="txtLeft bold borderBottom sentanceCase" id="loginEventDescriptionTitle">Event Details</h2>
+
+          <p id="loginEventDescription">loading event description/instructions</p>
+        </div>
+
+      </div>
+    </ons-page>
+  </ons-template>
+  <!-- End of Login page -->
+  <!-- Start of select base dialog template -->
+  <ons-template id="baseSelectDialog.html">
+    <ons-dialog id="baseSelectDialog" cancelable>
+      <div>
+        <ons-list>
+          <ons-list-header id="loginBaseSelect">Select a base or checkpoint</ons-list-header>
+
+        </ons-list>
+      </div>
+    </ons-dialog>
+  </ons-template>
+  <!-- End of select base dialog template -->
+  <!-- Start of eventSelectionPage -->
+  <ons-template id="eventSelectionPage.html">
+    <ons-page id="eventSelectionPage" class="cardBackground">
+      <ons-toolbar>
+        <div class="left">
+          <ons-toolbar-button class="menuButton">
+            <ons-icon icon="md-menu"></ons-icon>
+          </ons-toolbar-button>
+        </div>
+        <div class="center" id="selectEventTitle">
+          Select Event
+        </div>
+      </ons-toolbar>
+
+      <div class="pageDiv">
+        <div id="createNewEvent" class="">
+          <ons-button id="createNewEventButton" modifier="large" class="secondaryColorButton">Create New Event</ons-button>
+        </div>
+
+        <div id="ongoingEvents">
+          <div class="hide card shadow--2dp eventTitle">Ongoing Events</div>
+        </div>
+
+        <div id="todaysEvents">
+          <div class="hide card shadow--2dp eventTitle">Today's Upcoming Events</div>
+        </div>
+
+        <div id="upcomingEvents">
+          <div class="hide card shadow--2dp eventTitle">Upcoming Events</div>
+        </div>
+
+        <div id="pastEvents">
+          <div class="hide card shadow--2dp eventTitle">Past Events</div>
+        </div>
+      </div>
+    </ons-page>
+  </ons-template>
+  <!-- End of select event page -->
+  <!-- Start of page 1 -->
+  <ons-template id="page1.html">
+    <ons-page id="page1">
+      <!--Toolbar-->
+      <ons-toolbar>
+        <div class="left">
+          <ons-toolbar-button class="menuButton">
+            <ons-icon icon="md-menu"></ons-icon>
+          </ons-toolbar-button>
+        </div>
+        <div class="center pageTitle">
+          <div class="normalTitle"></div>
+          <div class="syncTitle hide">
+            <p class="mainTitle"></p>
+            <p class="lastSync"></p>
+          </div>
+        </div>
+        <div class="right">
+          <ons-toolbar-button>
+            <ons-icon icon="fa-comments" id="" class="messagesIcon" onclick="openMessages()">
+              <span id="messageBadge" class="messageBadge hide"></span>
+            </ons-icon>
+          </ons-toolbar-button>
+        </div>
+      </ons-toolbar>
+      <!--FAB-->
+      <ons-fab class="fab hide" id="fullEditFab" href="#" position="bottom Right">
+        <ons-icon icon="md-edit" class="fabIcon" id="fullEditIcon"></ons-icon>
+      </ons-fab>
+      <!--Top half of screen-->
+
+      <div id="p1TopHalf">
+        <ons-list>
+          <ons-list-header id="quickAddTitle">Add new log from base </ons-list-header>
+          <ons-list-item>
+            <div class="center participantRef">
+              Team No.
+            </div>
+            <div class="right">
+              <ons-input id="patrolNo" type="number" modifier="underbar" placeholder="Team No." float class="quickAddInput">
+              </ons-input>
+            </div>
+          </ons-list-item>
+          <ons-list-item tappable class="checkbox" id="offRouteCheckbox">
+            <label class="right">
+              <ons-input type="checkbox" input-id="offRoute" value="offRoute"></ons-input>
+            </label>
+            <label for="offRoute" class="center">Off route</label>
+          </ons-list-item>
+          <ons-list-item class="page1Time">
+            <div class="center">
+              Time in
+            </div>
+            <div class="right">
+              <ons-input id="timeIn" type="time" modifier="underbar" float class="quickAddInput">
+              </ons-input>
+            </div>
+          </ons-list-item>
+          <ons-list-item class="page1Time">
+            <div class="center">
+              Wait time
+            </div>
+            <div class="right">
+              <ons-input id="wait" type="number" modifier="underbar" placeholder="minutes" value="0" float class="quickAddInput">
+              </ons-input>
+            </div>
+          </ons-list-item>
+          <ons-list-item class="page1Time">
+            <div class="center">
+              Time out
+            </div>
+            <div class="right">
+              <ons-input id="timeOut" type="time" modifier="underbar" float class="quickAddInput">
+              </ons-input>
+            </div>
+          </ons-list-item>
+          <ons-list-item id="page1TotalScore" class="">
+            <div class="center">Total score</div>
+            <div class="right">
+              <ons-input id="total" type="number" modifier="underbar" placeholder="Total score" float class="quickAddInput">
+              </ons-input>
+            </div>
+          </ons-list-item>
+        </ons-list>
+        <p class="txtRight marginTop">
+          <ons-button modifier="" class="" id="cancelSubmitQuick">Clear</ons-button>
+          <ons-button class="secondaryColorButton" id="submitQuick">Submit</ons-button>
+        </p>
+      </div>
+      <!--Bottom Half-->
+      <div id="p1BottomHalf">
+        <ons-list>
+          <ons-list-header id="tableTitle">Previous logs from this base</ons-list-header>
+        </ons-list>
+        <!-- <div class="marginLeft">Previous Logs</div> -->
+        <table class="data-table logTable">
+          <thead>
+            <tr>
+              <th id="thPatrol" class="participantRef">Team</th>
+              <th id="thTimeIn">Time in</th>
+              <th id="thTimeOut">Time out</th>
+              <th id="thWait" class="hide landscapeShow">Wait</th>
+              <th id="thOffRoute" class="hide landscapeShow">Off route</th>
+              <th id="thTotalScore">Total score</th>
+              <th id="thEdit" class="hide landscapeShow">edit</th>
+            </tr>
+          </thead>
+          <tbody id="logsTable">
+          </tbody>
+        </table>
+      </div>
+    </ons-page>
+  </ons-template>
+  <ons-template id="admin.html">
+    <ons-page id="adminPage">
+      <!--Toolbar-->
+      <ons-toolbar>
+        <div class="left">
+          <ons-toolbar-button class="menuButton">
+            <ons-icon icon="md-menu"></ons-icon>
+          </ons-toolbar-button>
+        </div>
+        <div id="adminTitleDiv" class="center">
+          <div class="normalTitle">Admin</div>
+          <div class="syncTitle hide">
+            <p class="mainTitle">Admin</p>
+            <p class="lastSync"></p>
+          </div>
+        </div>
+        <div class="right">
+          <ons-toolbar-button>
+            <ons-icon icon="md-search" id="patrolSearch"></ons-icon>
+          </ons-toolbar-button>
+          <ons-toolbar-button>
+            <ons-icon icon="fa-comments" id="" class="messagesIcon" onclick="openMessages()">
+              <span id="messageBadge" class="messageBadge hide"></span>
+            </ons-icon>
+          </ons-toolbar-button>
+        </div>
+      </ons-toolbar>
+
+      <ons-tabbar id="adminTabbar" swipeable position="auto">
+        <ons-tab page="allLogsPage.html" label="All Logs" icon="md-view-headline" active>
+        </ons-tab>
+        <ons-tab page="lastSeenPage.html" label="Last Seen" icon="fa-binoculars">
+        </ons-tab>
+        <!-- <ons-tab page="updatePage.html" label="Stats" icon="fa-pie-chart">
+        </ons-tab> -->
+        <ons-tab page="leaderboard.html" label="Leaderboard" icon="fa-trophy">
+        </ons-tab>
+      </ons-tabbar>
+      <ons-progress-bar indeterminate class="hide progressBar"></ons-progress-bar>
+      <!--Top half of screen-->
+    </ons-page>
+  </ons-template>
+  <!-- End of admin.html -->
+  <!-- Start of allLogsPage.html -->
+  <ons-template id="allLogsPage.html">
+    <ons-page id="allLogsPage">
+      <div id="allLogsCopy">
+        <table class="data-table logTable">
+          <thead>
+            <tr>
+              <!--<th class="hide landscapeShow">
+              <ons-input type='checkbox' id="selectAll"></ons-input>
+            </th>-->
+              <th>Base</th>
+              <th class="participantRef">Team</th>
+              <th>Time in</th>
+              <th>Time out</th>
+              <th class="hide landscapeShow">Wait</th>
+              <th class="hide landscapeShow">Off route</th>
+              <th class="hide landscapeShow">Score</th>
+              <th class="hide landscapeShow">Recorded by</th>
+              <th class="hide landscapeShow">edit</th>
+            </tr>
+          </thead>
+          <tbody id="adminLogsTable">
+          </tbody>
+        </table>
+      </div>
+      <ons-speed-dial position="bottom right" direction="up" id="adminSpeedDial" class="hide">
+        <ons-fab>
+          <ons-icon icon="md-edit"></ons-icon>
+        </ons-fab>
+        <ons-speed-dial-item id="adminLock">
+          <ons-icon icon="md-lock"></ons-icon>
+        </ons-speed-dial-item>
+        <ons-speed-dial-item id="adminUnlock">
+          <ons-icon icon="md-lock-open"></ons-icon>
+        </ons-speed-dial-item>
+        <ons-speed-dial-item id="adminDelete">
+          <ons-icon icon="md-delete"></ons-icon>
+        </ons-speed-dial-item>
+        <!-- <ons-speed-dial-item id="adminCopyTable" class="clipBtn">
+          <ons-icon icon="md-copy"></ons-icon>
+        </ons-speed-dial-item> -->
+        <!--<ons-speed-dial-item id="adminShowMap">
+          <ons-icon icon="md-map"></ons-icon>
+        </ons-speed-dial-item>-->
+      </ons-speed-dial>
+    </ons-page>
+  </ons-template>
+  <!-- end of allLogsPage.html -->
+  <!-- Start of LastSeenPage.html -->
+  <ons-template id="lastSeenPage.html">
+    <ons-page id="lastSeenPage">
+      <table class="data-table logTable">
+        <thead>
+          <tr>
+            <th class="txtCenter participantRef">Team</th>
+            <th class="txtCenter">Last Seen</th>
+            <th class="txtCenter">At Base</th>
+
+            <th class="txtCenter">On/Off Route</th>
+            <th class="hide landscapeShow txtCenter">Recorded by</th>
+          </tr>
+        </thead>
+        <tbody id="lastSeenTable">
+        </tbody>
+      </table>
+    </ons-page>
+  </ons-template>
+  <!-- End of lastSeenPage.html -->
+  <!-- Start of Leaderboard.html -->
+  <ons-template id="leaderboard.html">
+    <ons-page id="leaderboard">
+      <table class="data-table logTable">
+        <thead>
+          <tr>
+            <th class="bold txtCenter">Position</th>
+            <th class="txtCenter participantRef">Team</th>
+            <th class="txtCenter">Total Score</th>
+          </tr>
+        </thead>
+        <tbody id="leaderboardTable">
+        </tbody>
+      </table>
+    </ons-page>
+  </ons-template>
+  <!-- End of leaderboard.html -->
+  <!-- Start of MessagesPage.html -->
+  <ons-template id="messagesPage.html">
+    <ons-page id="messagesPage">
+      <ons-toolbar>
+        <div class="left">
+          <ons-back-button>Back</ons-back-button>
+        </div>
+        <div class="center">
+          <div class="normalTitle">Messages</div>
+          <div class="syncTitle hide">
+            <p class="mainTitle">Messages</p>
+            <p class="lastSync"></p>
+          </div>
+        </div>
+      </ons-toolbar>
+
+      <!-- <ons-fab position="bottom right" ripple id="scrollToBottomFab" class="secondaryFab fab--mini">
+        <ons-icon icon="fa-angle-double-down"></ons-icon>
+      </ons-fab> -->
+      <div id="topDateMsgDivider" class="msg dateMsgDivider">
+        <div id="topDateMsgBubble" class="bubble dateBubble">Today</div>
+      </div>
+      <div class="" id="messageWindow"></div>
+      <div id="newMessages"></div>
+      <ons-bottom-toolbar transparent id="messageInputToolbar">
+        <div id="messageTools">
+          <div class="messageInputArea">
+            <ons-fab ripple id="scrollToBottomFab" class="secondaryFab fab--mini">
+              <ons-icon icon="fa-angle-double-down"></ons-icon>
+            </ons-fab>
+            <span id="scrollMessageBadge" class="messageBadge hide"></span>
+            <div class="messageInputContainer">
+              <div id="messageInput" contenteditable="true" spellcheck="true" autofocus></div>
+              <div id="messageInputPlaceholder" class="placeholder text-input--material__label">Type a message</div>
+
+            </div>
+            <ons-fab ripple id="sendMessage" class="fab--mini">
+              <i class="zmdi zmdi-mail-send"></i>
+            </ons-fab>
+
+            <!-- <button id="sendMessage" class="fab fab--mini">
+          <ons-ripple color="#bb8fce" background="#85c1e9"></ons-ripple>
+          <i class="zmdi zmdi-mail-send"></i>
+        </button> -->
+
+          </div>
+        </div>
+      </ons-bottom-toolbar>
+    </ons-page>
+  </ons-template>
+  <!-- End of MessagesPage.html -->
+  <ons-template id="testPage.html">
+    <ons-page id="testPage">
+      <div class="pageDiv">
+        <form id="payment-form">
+          <div class="form-row">
+            <label for="card-element">
+              Credit or debit card
+            </label>
+            <div id="card-element">
+              <!-- A Stripe Element will be inserted here. -->
+            </div>
+
+            <!-- Used to display Element errors. -->
+            <div id="card-errors" role="alert"></div>
+          </div>
+
+          <button>Submit Payment</button>
+        </form>
+      </div>
+    </ons-page>
+  </ons-template>
+
+  <!-- Start of Map.html -->
+  <!-- <ons-template id="map.html">
+    <ons-page id="mapPage">
+      <ons-fab class="fab locOn" id="fabLocate" href="#" position="bottom right">
+        <ons-icon icon="md-gps" class="locateNotSelected fabIcon" id="fabLocateIcon"></ons-icon>
+      </ons-fab>
+      <div class="leaflet-container leaflet-touch leaflet-retina leaflet-fade-anim leaflet-grab leaflet-touch-drag leaflet-touch-zoom"
+        id="map" href='#'>
+        <ons-toolbar>
+          <div class="left"> -->
+  <!-- <ons-toolbar-button id="mapBackButton">
+              <ons-icon icon="md-arrow-left"></ons-icon>
+            </ons-toolbar-button> -->
+
+  <!-- <ons-back-button>Back</ons-back-button>
+
+          </div>
+          <div class="center offlineMap">Local Map</div>
+        </ons-toolbar>
+      </div>
+      <img src="./img/bingLogo/bing_maps_logo_gray.png" class="bingLogo" id="bingGrey">
+    </ons-page>
+  </ons-template> -->
+  <ons-template id="updatePage.html">
+    <ons-page id="updatePage">
+      <div class="updateFiller">
+        <ons-progress-bar indeterminate class="progressBar"></ons-progress-bar>
+      </div>
+      <ons-icon icon="md-refresh-sync" id="updateEventUpdate"></ons-icon>
+      <div class="updateFiller"></div>
+    </ons-page>
+  </ons-template>
+  <script>
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker
+        .register('/sw.js')
+        .then(function () { console.log("Service Worker Registered"); });
+    }
+  </script>
+</body>
+<!-- JQuery -->
+<script src="js/JQuery/jquery-3.1.1.min.js "></script>
+<!--<script src="https://code.jquery.com/jquery-1.11.3.min.js "></script>-->
+<!--<script src="js/JQuery/jquery-1.12.4.min.js"></script>-->
+<!-- Script to stop JQuery mobile editing styling -->
+<!--<script type="text/javascript">
+  $(document).bind("mobileinit", function () {
+    $.extend($.mobile, {
+      autoInitializePage: false
+    })
+  });
+</script>-->
+<!-- JQuery mobile -->
+<!--<script src="js/JQuery/jquery.mobile-1.4.5.min.js"></script>-->
+<!--<script src="https://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js "></script>-->
+<!-- Script for autocompleting search boxes -->
+<!--<script src="js/autocomplete-search-bar/jquery.autocomplete.js"></script>-->
+<!-- JQuery cookie plugin to manage cookies -->
+<!--<script src="js/JQuery/js.cookie.js"></script>-->
+<!-- Leaflet JS and Leaflet WMS extension -->
+<!-- <script src="js/leaflet/leaflet.js"></script> -->
+<!-- JavaScript database  -->
+<script src="js/pouchdb/pouchdb-6.3.4.min.js"></script>
+<script src="js/pouchdb/pouchdb.find.min.js"></script>
+<!-- Leaflet plugins -->
+<!--<script src="js/leaflet/wmsleaflet.js">
+</script>-->
+<!--<script src="js/leaflet/leaflet-routing-machine.js"></script>-->
+<!--<script src="js/leaflet/lrm-mapzen.js "></script>-->
+<!--<script src="js/leaflet/Control.Geocoder.js"></script>-->
+<!-- <script src="js/leaflet/leaflet-bing-layer.js"></script> -->
+<!-- <script src="js/leaflet/L.TileLayer.PouchDBCached.js"></script> -->
+<!-- <script src="js/leaflet/leaflet.edgebuffer.js"></script> -->
+<!-- Error tracking -->
+<!--<script src="https://cdn.ravenjs.com/3.8.1/raven.min.js"></script>-->
+<!-- My leaflet control file -->
+<!--<script src="js/leaflet-control.js"></script>-->
+<!-- JQuery Control -->
+<!--<script src="js/tracking.js"></script>-->
+<!-- TestScripts -->
+<script src="https://js.stripe.com/v3/"></script>
+<!-- My scripts -->
+<script src="js/operationFounder.js"></script>
+
 </html>
